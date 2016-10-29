@@ -1,0 +1,527 @@
+@CHARSET "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700);
+@import url("http://fonts.googleapis.com/earlyaccess/notosansjapanese.css");
+
+html {
+	box-sizing: border-box;
+	}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+body {
+	position: relative;
+	background: url(../img/common/bg_grid.png) repeat center top;
+	width: 100%;
+	height: 100%;
+	color: #7d7d7d;
+	font-family: "Roboto", "Noto Sans Japanese", sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: 1px;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust : 100%;
+	text-align: justify;
+	text-justify: inter-ideograph;
+	-ms-text-justify: inter-ideograph;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	overflow-x: hidden;
+}
+
+img {
+	display: block;
+}
+
+a {
+	color: #b6da3e;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+	font-weight: normal;
+	padding: 0;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+hr {
+	position: absolute;
+	width: 10px;
+	border: none;
+	border-top: solid 2px #b6da3e;
+}
+
+/* .visited {
+	display: block;
+	background: url(../img/common/bg_grid.png) repeat fixed;
+} */
+
+#wrap {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.sp {
+	display: none;
+}
+@media screen and (max-width : 680px){
+	.pc {
+		display: none;
+	}
+	.sp {
+		display: block;
+	}
+}
+
+.cboxCloseBtn {
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	pointer-events: none;
+	opacity: 0;
+	z-index: 9999;
+}
+.cboxCloseBtn img {
+	width: 95px;
+}
+@media screen and (max-width : 680px){
+	.cboxCloseBtn img {
+		width: 70px;
+	}
+}
+
+/********************************************************************************
+
+		FramE
+
+*********************************************************************************/
+
+.line {
+	position: fixed;
+	background: #b6b6b6;
+	pointer-events: none;
+	z-index: 9998;
+}
+#lineTop {
+	top: 3px;
+	left: 0;
+	width: 100%;
+	height: 7px;
+}
+#lineRight {
+	top: 0;
+	right: 3px;
+	width: 7px;
+	height: 100%;
+}
+#lineBottom {
+	bottom: 3px;
+	left: 0;
+	width: 100%;
+	height: 7px;
+}
+#lineLeft {
+	top: 0;
+	left: 3px;
+	width: 7px;
+	height: 100%;
+}
+.frame {
+	position: fixed;
+	background: #b6da3e;
+	pointer-events: none;
+	z-index: 9999;
+}
+#frameTop {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 7px;
+}
+#frameRight {
+	top: 0;
+	right: 0;
+	width: 7px;
+	height: 100%;
+}
+#frameBottom {
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 7px;
+}
+#frameLeft {
+	top: 0;
+	left: 0;
+	width: 7px;
+	height: 100%;
+}
+.pc #lineTopRight {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 75px;
+	height: 160px;
+	pointer-events: none;
+	z-index: 9998;
+}
+.pc #lineBottomLeft {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 75px;
+	height: 160px;
+	pointer-events: none;
+	z-index: 9998;
+}
+@media screen and (max-width : 680px){
+	.sp #lineTopRight {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 47px;
+		height: 100px;
+		pointer-events: none;
+		z-index: 9998;
+	}
+	.sp #lineBottomLeft {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 47px;
+		height: 100px;
+		pointer-events: none;
+		z-index: 9998;
+	}
+	.sp .menuWrap {
+		margin: 0;
+	}
+	.sp .menuWrap #menuBtn {
+		position: fixed;
+		top: 15px;
+		right: 15px;
+		z-index: 9999;
+	}
+	.sp .menuWrap #menuBtn img {
+		width: 70px;
+		height: 70px;
+	}
+	.sp .menuWrap .overlayer {
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: url(../img/common/bg_grid_overlayer.jpg) repeat center top;
+		width: 100%;
+		height: 0;
+		z-index: 999;
+	}
+	.sp #menuToggle {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		padding: 51px 28px;
+		opacity: 0;
+		z-index: 9999;
+	}
+	.sp #menuToggle .title {
+		margin-bottom: 16px;
+	}
+	.sp #menuToggle ul {
+		overflow-y: scroll;
+	}
+	.sp #menuToggle li:not(:first-child) {
+		margin-top: 10px;
+	}
+	.sp #menuToggle img {
+		height: 36px;
+	}
+	.sp #menuToggle ul img {
+		height: 32px;
+	}
+}
+
+/********************************************************************************
+
+		ContaineR
+
+*********************************************************************************/
+
+#container {
+	position: relative;
+	width: 1080px;
+	padding: 0 10px;
+	margin:  0 auto;
+}
+@media screen and (max-width : 680px){
+	#container {
+		max-width: 100%;
+	}
+}
+
+/********************************************************************************
+
+		HeadeR
+
+*********************************************************************************/
+
+header {
+	position: relative;
+	height: 200px;
+	z-index: 99;
+}
+header hr {
+	top: 161px;
+	right: 0;
+}
+#titleLogo {
+	float: left;
+	width: 320px;
+	height: 156px;
+	padding-top: 45px;
+	margin-right: 60px;
+}
+#titleLogo img {
+	width: 320px;
+	height: 156px;
+}
+
+.title img {
+	height: 36px;
+}
+
+.menuWrap .pc {
+	float: left;
+	width: 680px;
+	margin-top: 60px;
+}
+.menuWrap .pc .title {
+	float: left;
+	margin-right: 50px;
+	pointer-events: none;
+}
+.menuWrap .pc ul {
+	float: left;
+	width: 540px;
+}
+.menuWrap li {
+	float: left;
+	position: relative;
+	margin-bottom: 14px;
+}
+.menuWrap .pc li:first-child {
+	margin-right: 75px;
+}
+.menuWrap .pc li:nth-child(2) {
+	margin-right: 42px;
+}
+.menuWrap .pc li:nth-child(3) {
+	margin-right: 47px;
+}
+.menuWrap .pc li:nth-child(5) {
+	clear: both;
+	margin-right: 47px;
+}
+.menuWrap .pc li:nth-child(6) {
+	margin-right: 94px;
+}
+.menuWrap .pc li:nth-child(7) {
+	margin-right: 73px;
+}
+.menuWrap li img {
+	height: 36px;
+}
+.menuWrap li img:last-child {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+.menuWrap li.currentPage {
+	pointer-events: none;
+}
+.menuWrap li.currentPage img:first-child {
+	opacity: 0;
+}
+.menuWrap li.currentPage img:last-child {
+	opacity: 1;
+}
+@media screen and (max-width : 680px){
+	header {
+		height: 124px;
+	}
+	header hr {
+		display: none;
+	}
+	#titleLogo {
+		float: none;
+		width: 210px;
+		height: 124px;
+		padding: 22px 0 0 20px;
+		margin: 0;
+	}
+	#titleLogo img {
+		width: 210px;
+		height: 102px;
+	}
+	.menuWrap {
+		margin: 0;
+	}
+	.menuWrap li {
+		float: none;
+		margin: 0;
+	}
+}
+
+#container {
+	width: 960px;
+	padding-top: 120px;
+	margin: 0 auto;
+}
+
+#title {
+	width: 600px;
+	margin: 0 auto;
+	pointer-events: none;
+}
+#title img {
+	width: 100%;
+	height: auto;
+}
+
+#logo {
+	width: 540px;
+	height: 270px;
+	margin: 40px auto 0 auto;
+	pointer-events: none;
+}
+#logo img {
+	width: 100%;
+	height: auto;
+}
+
+#confirm {
+	width: 740px;
+	margin: 40px auto 0 auto;
+}
+#confirm p {
+	font-size: 16px;
+	line-height: 1.8;
+	letter-spacing: 3px;
+	text-align: center;
+}
+
+#btnWrap ul {
+	width: 300px;
+	margin: 40px auto 0 auto;
+}
+#btnWrap li {
+	float: left;
+}
+#btnWrap li:first-child {
+	margin-right: 80px;
+}
+#btnWrap li img {
+	width: 110px;
+	height: 55px;
+}
+@media screen and (max-width : 680px){
+	#container {
+		width: 100%;
+		padding: 120px 20px 0 20px;
+	}
+	#title {
+		width: 100%;
+		padding: 0 20px;
+	}
+	#logo {
+		width: 80%;
+		height: auto;
+	}
+	#confirm {
+		width: 100%;
+		padding: 0 20px;
+		margin: 60px auto 0 auto;
+	}
+	#confirm p {
+		font-size: 12px;
+		letter-spacing: 2px;
+	}
+	#btnWrap ul {
+		width: 240px;
+	}
+	#btnWrap li:first-child {
+		margin-right: 60px;
+	}
+	#btnWrap li img {
+		width: 90px;
+		height: auto;
+	}
+}
+
+footer {
+	padding: 80px 0 120px 0;
+	pointer-events: none;
+}
+#brandLogo {
+	width: 135px;
+	height: 45px;
+	margin: 0 auto;
+}
+#brandLogo img {
+	width: 100%;
+	height: auto;
+}
+
+#copyright {
+	width: 224px;
+	height: 8px;
+	margin: 15px auto 0 auto;
+}
+#copyright img {
+	width: 100%;
+	height: auto;
+}
+@media screen and (max-width : 680px){
+	#brandLogo {
+		width: 25%;
+		height: auto;
+	}
+}
+
+/********************************************************************************
+
+		ClearfiX
+
+*********************************************************************************/
+
+.clearfix:after {
+	clear: both;
+	display: block;
+	height: 0;
+	visibility: hidden;
+	content: '.';
+	font-size: 0.1em;
+	line-height: 0;
+	overflow: hidden;
+}
+.clearfix {
+	min-height: 1%;
+	display: inline-table;
+}
+* html .clearfix {
+	height: 1%;
+}
+.clearfix {
+	display: block;
+}
