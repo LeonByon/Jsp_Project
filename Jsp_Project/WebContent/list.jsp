@@ -61,7 +61,7 @@
 	<tr height="25" align="center">
 		<td>&nbsp;</td>
 		<td align="left"><%=idx %></td>
-		<td align="left"><%=title %></td>
+		<td align="left"><a href="view.jsp?idx=<%=idx%>" ><%=title %></td>
 		<td align="center"><%=name %></td>
 		<td align="center"><%=time %></td>
 		<td align="center"><%=hit %></td>
