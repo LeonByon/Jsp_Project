@@ -15,17 +15,17 @@
 	String password = null;
 	int idx = Integer.parseInt(request.getParameter("idx"));
 	String passw = request.getParameter("password");
-	
+
 	try{
-				
+
 		Connection conn = DriverManager.getConnection(url,id,pass);
 		Statement stmt = conn.createStatement();
-		
+
 		String sql = "SELECT PASSWORD FROM board WHERE NUM=" + idx;
 		ResultSet rs = stmt.executeQuery(sql);
-		
+
 		 if(rs.next()){
-				password = rs.getString(1); 
+				password = rs.getString(1);
 
    		}
 		 if(password.equals(passw)){
