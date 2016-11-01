@@ -11,12 +11,13 @@
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String id ="jspproject";
 	String pass = "1234";
+	int pg = Integer.parseInt(request.getParameter("pg"));
 	int idx = Integer.parseInt(request.getParameter("idx"));
-	
+
 	try{
 		Connection conn = DriverManager.getConnection(url,id,pass);
 		Statement stmt = conn.createStatement();
-		
+
 		String sql = "select username, title, memo, time, hit from board where num=" + idx;
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()){
@@ -98,10 +99,10 @@
 			<tr align="center">
 				<td width="0">&nbsp;</td>
 				<td colspan="2" width="399"><input type="button" value="글쓰기" OnClick="window.location='write.jsp'">
-					<input type="button" value="답글">
-					<input type="button" value="목록" onclick="window.location='list.jsp'">
-					<input type="button" value="수정" onclick="window.location='modify.jsp?idx=<%=idx%>'">
-					<input type="button" value="삭제" onclick="window.location='delete.jsp?idx=<%=idx%>'">
+					<input type="button" value="답글" OnClick="window.location='reply.jsp?idx=<%=idx%>&pg=<%=pg%>'">
+					<input type="button" value="목록" onclick="window.location='list.jsp?pg=<%=pg%>'">
+					<input type="button" value="수정" onclick="window.location='modify.jsp?idx=<%=idx%>&pg=<%=pg%>'">
+					<input type="button" value="삭제" onclick="window.location='delete.jsp?idx=<%=idx%>&pg=<%=pg%>'">
 				<td width="0">&nbsp;</td>
 			</tr>
 	</table>

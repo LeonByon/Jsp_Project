@@ -11,23 +11,24 @@
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String id ="jspproject";
 	String pass = "1234";
-	
+
 	String name = request.getParameter("name");
 	String password = request.getParameter("password");
 	String title = request.getParameter("title");
 	String memo = request.getParameter("memo");
-	
+	int max = 0;
 	try{
 		Connection conn = DriverManager.getConnection(url,id,pass);
-		
-		String sql = "insert into board (username,password,title,memo) VALUES(?,?,?,?)";
+
+		String sql = "insert into board (username,password,title,memo,ref) VALUES(?,?,?,?,?)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
+
 		pstmt.setString(1, name);
 		pstmt.setString(2, password);
 		pstmt.setString(3, title);
 		pstmt.setString(4, memo);
-		
+		pstmt.setInt(5, max+1);
+
 		pstmt.execute();
 		pstmt.close();
 	}catch(SQLException e){e.printStackTrace();}
