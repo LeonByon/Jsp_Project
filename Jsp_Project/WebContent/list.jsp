@@ -18,7 +18,7 @@
 	String id ="jspproject";
 	String pass = "1234";
 	int total = 0;
-	
+
 	try{
 		Connection conn = DriverManager.getConnection(url,id,pass); //DB연결
 		Statement stmt = conn.createStatement();//Statement타입의 객체 생성
@@ -43,7 +43,7 @@
 		<td width="58">조회수</td>
 		<td width="7"><img src="img/table_right.gif" width="5" height="30" /></td>
 	</tr>
-<% 
+<%
 		if(total==0){ //total 자료가 없다면
 %>
 				<tr align="center" bgcolor="#FFFFFF" height="30">
@@ -76,10 +76,10 @@
 		conn.close();
 	}catch(SQLException e){e.printStackTrace();}
 %>
-		
+
 		<tr height="1" bgcolor="#82B5DF"><td colspan="6" width="752"></td></tr>
 	</table>
-	
+
 	<table width="100%" cellpadding="0" cellspacing="0" border="0">
 		<tr><td colspan="4" height="5"></td></tr>
 		<tr align="center">
