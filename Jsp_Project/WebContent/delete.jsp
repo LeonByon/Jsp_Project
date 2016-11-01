@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<script language = "javascript">  // 자바 스크립트 시작
+<script>  // 자바 스크립트 시작
 
 function deleteCheck()
   {
@@ -23,10 +23,11 @@ function deleteCheck()
 </head>
 <%
 	int idx = Integer.parseInt(request.getParameter("idx"));
+	String pg = request.getParameter("pg");
 %>
  <body>
 <table>
-<form name=deleteform method=post action="delete_ok.jsp?idx=<%=idx%>">
+<form name=deleteform method=post action="delete_ok.jsp?idx=<%=idx%>&pg=<%=pg%>">
   <tr>
    <td>
     <table width="100%" cellpadding="0" cellspacing="0" border="0">

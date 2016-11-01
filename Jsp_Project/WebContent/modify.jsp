@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.Connection"%>
+<%@page import="board.*"%>
+<jsp:useBean id="dao" class="board.DAO" />
+<jsp:useBean id="vo1" class="board.VO" />
 <!DOCTYPE html>
-<script language = "javascript">  // 자바 스크립트 시작
-
+<script>  // 자바 스크립트 시작
+<%
+	int idx = Integer.parseInt(request.getParameter("idx"));
+	int pg = Integer.parseInt(request.getParameter("pg"));
+	VO vo = dao.getView(idx);
+%>
 function modifyCheck()
   {
    var form = document.modifyform;
@@ -35,39 +37,7 @@ function modifyCheck()
  		form.submit();
   }
 </script>
-<%
-	request.setCharacterEncoding("UTF-8");
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String id ="jspproject";
-	String pass = "1234";
 
-	String name= "";
-	String password = "";
-	String title = "";
-	String memo = "";
-	int idx = Integer.parseInt(request.getParameter("idx"));
-
-	try{
-		Connection conn = DriverManager.getConnection(url,id,pass);
-		Statement stmt = conn.createStatement();
-
-		String sql = "SELECT USERNAME, PASSWORD, TITLE, MEMO FROM board WHERE NUM=" + idx;
-		ResultSet rs = stmt.executeQuery(sql);
-
-		if(rs.next()){
-			name = rs.getString(1);
-			password = rs.getString(2);
-			title = rs.getString(3);
-			memo = rs.getString(4);
-		}
-		rs.close();
-		stmt.close();
-		conn.close();
-	}catch(SQLException e){
-		e.printStackTrace();
-	}
-%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -75,6 +45,7 @@ function modifyCheck()
 </head>
  <body>
 <table>
+ <form name=modifyform method=post action="modify_ok.jsp?idx=<%=idx%>&pg=<%=pg%>">
   <tr>
    <td>
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -84,19 +55,18 @@ function modifyCheck()
       <td width="5"><img src="img/table_right.gif" width="5" height="30" /></td>
      </tr>
     </table>
- <form name=modifyform method=post action="modify_ok.jsp?idx=<%=idx%>">
    <table>
      <tr>
       <td>&nbsp;</td>
       <td align="center">제목</td>
-      <td><input type = "text" name="title" size="50" maxlength="50" value="<%=title%>"></td>
+      <td><input type = "text" name="title" size="50" maxlength="50" value="<%=vo.getTitle()%>"></td>
       <td>&nbsp;</td>
      </tr>
      <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
     <tr>
       <td>&nbsp;</td>
       <td align="center">이름</td>
-      <td><%=name %><input type="hidden" name="name" size="50" maxlength="50" value="<%=name %>"></td>
+      <td><%=vo.getName()%><input type="hidden" name="name" size="50" maxlength="50" value="<%=vo.getName()%>"></td>
       <td>&nbsp;</td>
      </tr>
       <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
@@ -110,7 +80,7 @@ function modifyCheck()
      <tr>
       <td>&nbsp;</td>
       <td align="center">내용</td>
-      <td><textarea name="memo" cols="50" rows="13"><%=memo %></textarea></td>
+      <td><textarea name="memo" cols="50" rows="13"><%=vo.getMemo()%></textarea></td>
       <td>&nbsp;</td>
      </tr>
      <tr height="1" bgcolor="#dddddd"><td colspan="4"></td></tr>
