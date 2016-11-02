@@ -13,18 +13,18 @@ public class DAO {
 	public DAO(){
 		dbconnect = new DBConnect();
 	}
-	
+
 	public int count(){
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int cnt = 0;
-		
+
 		try{
 			sql = "SELECT COUNT(*) FROM BOARD";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()){
 				cnt=rs.getInt(1);
 			}
@@ -34,38 +34,38 @@ public class DAO {
 		}
 		return cnt;
 	}
-	
+
 	public String pasing(String data){
 		try{
 			data = new String(data.getBytes("8859_1"), "UTF-8");
 		}catch (Exception e){e.printStackTrace();}
 		return data;
 	}
-	
+
 	public ArrayList<VO> getMemberList() {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		ArrayList<VO> alist = new ArrayList<VO>();
-		
+
 		try{
 			sql = "select num, username, title, time, hit, indent from board order by ref";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			while(rs.next()){
 				VO vo = new VO();
 				boolean dayNew = false;
 				vo.setNum(rs.getInt(1));
 				vo.setName(rs.getString(2));
 				vo.setTitle(rs.getString(3));
-				
+
 				Date date = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String year =(String)sdf.format(date);
 				String yea = rs.getString(4).substring(0,10);
-				
+
 				if(year.equals(yea)){
 					dayNew = true;
 				}
@@ -81,18 +81,56 @@ public class DAO {
 		}
 		return alist;
 	}
-	
+
+	public ArrayList<VO_COM> getCommentList(int idx) {
+		Connection con = dbconnect.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		ArrayList<VO_COM> alist = new ArrayList<VO_COM>();
+
+		try{
+			sql = "select num,board_num,mem_name,memo,indate from comments where board_num="+idx+"ORDER BY comments.NUM";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+				VO_COM vo_com = new VO_COM();
+				boolean dayNew = false;
+				vo_com.setNum(rs.getInt(1));
+				vo_com.setBoard_num(rs.getInt(2));
+				vo_com.setMem_name(rs.getString(3));
+				vo_com.setMemo(rs.getString(4));
+
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String year =(String)sdf.format(date);
+				String yea = rs.getString(5).substring(0,10);
+
+				if(year.equals(yea)){
+					dayNew = true;
+				}
+				vo_com.setTime(yea);
+				alist.add(vo_com);
+			}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			DBClose.close(con,pstmt,rs);
+		}
+		return alist;
+	}
+
 	public int getMax(){
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int max = 0;
-		
+
 		try{
 			sql = "select max(num) from board";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()){
 				max = rs.getInt(1);
 			}
@@ -102,15 +140,15 @@ public class DAO {
 		}
 		return max;
 	}
-	
+
 	public void insertWrite(VO vo, int max){
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try{
-			sql="insert into board(username,password,title,memo,ref) values(?,?,?,?,?)";
+			sql="insert into board(NUM, username,password,title,memo,ref) values(AAA.NEXTVAL,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
-			
+
 			pstmt.setString(1, pasing(vo.getName()));
 			pstmt.setString(2, pasing(vo.getPassword()));
 			pstmt.setString(3, pasing(vo.getTitle()));
@@ -122,19 +160,19 @@ public class DAO {
 			DBClose.close(con,pstmt);
 		}
 	}
-	
+
 	public VO getView(int idx){
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs  = null;
 		VO vo = null;
-		
+
 		try{
 			sql="select username,title,memo,time,hit,password,ref,indent,step from board WHERE NUM=?";
 			pstmt= con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()){
 				vo = new VO();
 				vo.setName(rs.getString(1));
@@ -153,71 +191,99 @@ public class DAO {
 		}
 		return vo;
 	}
+
+	public VO_COM getView_COM(int idx){
+		Connection con = dbconnect.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs  = null;
+		VO_COM vo_com = null;
+
+		try{
+			sql="select num,board_num,mem_name,memo,indate from comments WHERE board_num=?";
+			pstmt= con.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+				vo_com = new VO_COM();
+				vo_com.setNum(rs.getInt(1));
+				vo_com.setBoard_num(rs.getInt(2));
+				vo_com.setMem_name(rs.getString(3));
+				vo_com.setMemo(rs.getString(4));
+				vo_com.setTime(rs.getString(5));
+			}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			DBClose.close(con,pstmt,rs);
+		}
+		return vo_com;
+	}
+
 	public void UpdateHit(int idx) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			sql = "UPDATE board SET HIT=HIT+1 where NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt);
 		}
 	}
-	
+
 	public boolean checkPassword(VO vo, int idx) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		boolean ch = false;
-		
+
 		try {
 			sql = "SELECT NUM FROM board where NUM=? and PASSWORD=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setString(2, vo.getPassword());
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {
 				ch = true;
 			} else {
 				ch = false;
 			}
-			
+
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt,rs);
 		}
 		return ch;
 	}
-	
+
 	public void delete(int idx) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			sql = "DELETE FROM board WHERE NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt);
 		}
 	}
-	
+
 	public void modify(VO vo, int idx) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			sql = "UPDATE board SET TITLE=?, MEMO=? where NUM=?";
 			pstmt = con.prepareStatement(sql);
@@ -225,52 +291,48 @@ public class DAO {
 			pstmt.setString(2, pasing(vo.getMemo()));
 			pstmt.setInt(3, idx);
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt);
 		}
 	}
-	
+
 	public void UpdateStep(int ref, int step) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			sql = "UPDATE board SET STEP=STEP+1 where REF=? and STEP>?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, ref);
 			pstmt.setInt(2, step);
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt);
 		}
 	}
-	
-	public void insertReply(VO vo, int ref, int indent, int step) {
+
+	public void insertReply(int idx, String memo, String mem_name) {
 		Connection con = dbconnect.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
-			sql = "INSERT INTO board(USERNAME, PASSWORD, TITLE, MEMO, REF, INDENT, STEP) "+
-					"VALUES(?,?,?,?,?,?,?)";
+			sql = "INSERT INTO comments(NUM, board_num, mem_name, memo, indate) "+
+					"VALUES(BBB.NEXTVAL,?,?,?,sysdate)";
 			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setString(1, pasing(vo.getName()));
-			pstmt.setString(2, pasing(vo.getPassword()));
-			pstmt.setString(3, pasing(vo.getTitle()));
-			pstmt.setString(4, pasing(vo.getMemo()));
-			pstmt.setInt(5, ref);
-			pstmt.setInt(6, indent+1);
-			pstmt.setInt(7, step+1);
-			
+
+			pstmt.setInt(1, idx);
+			pstmt.setString(2, mem_name);
+			pstmt.setString(3, memo);
+
 			pstmt.execute();
 		}catch(Exception e) {
-			
+
 		}finally {
 			DBClose.close(con,pstmt);
 		}
