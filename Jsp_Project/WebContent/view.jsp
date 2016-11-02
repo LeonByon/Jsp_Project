@@ -93,13 +93,6 @@
 	<table width="413">
 		<tr>
 			<td width="0">&nbsp;</td>
-			<td align="center" width="76">댓글번호</td>
-			<td width="319"><%=vo_com.getNum() %></td>
-			<td width="0">&nbsp;</td>
-		</tr>
-			<tr height="1" bgcolor="#dddddd"><td colspan="4" width="407"></td></tr>
-		<tr>
-			<td width="0">&nbsp;</td>
 			<td align="center" width="76">작성자</td>
 			<td width="319"><%=vo_com.getMem_name() %></td>
 			<td width="0">&nbsp;</td>
@@ -129,7 +122,7 @@
 	<%} %>
 	<form action="./reply_ok.jsp" method = "post">
 		<p>
-			<textarea name = "mem_name" rows="1" cols="25"></textarea>
+			<textarea name = "mem_name" rows="1" cols="25" readonly>${sessionScope.name}</textarea>
 			<textarea name = "memo" rows="2" cols="50"></textarea>
 		</p>
 		<input type = "hidden" name="pg" value = "<%=pg%>">

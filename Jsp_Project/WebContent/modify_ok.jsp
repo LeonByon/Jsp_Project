@@ -24,5 +24,5 @@
 				location.href="javascript:history.back()";
 			</script>
 		<%
-	} 
+	}
 %>

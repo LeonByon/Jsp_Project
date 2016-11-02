@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import com.jsp.bean.*;
 
 public class DAO {
 	DBConnect dbconnect = null;
@@ -112,6 +113,56 @@ public class DAO {
 				}
 				vo_com.setTime(yea);
 				alist.add(vo_com);
+			}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			DBClose.close(con,pstmt,rs);
+		}
+		return alist;
+	}
+
+	public ArrayList<Member> getMember() {
+		Connection con = dbconnect.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		ArrayList<Member> alist = new ArrayList<Member>();
+
+		try{
+			sql = "select num,id,pwd,name,email,phone,indate,admin from member";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()){
+				Member member = new Member();
+				boolean dayNew = false;
+				String ad = "";
+				member.setNum(rs.getInt(1));
+				member.setName(rs.getString(2));
+				member.setPwd(rs.getString(3));
+				member.setName(rs.getString(4));
+				member.setEmail(rs.getString(5));
+				member.setPhone(rs.getString(6));
+				String indate = rs.getString(7);
+				String admin = rs.getString(8);
+				if(admin.equals("0")){
+					ad = "관리자";
+				}else{
+					ad = "일반";
+				}
+				member.setAdmin(ad);
+
+
+				Date date = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String year =(String)sdf.format(date);
+				String yea = indate.substring(0,10);
+
+				if(year.equals(yea)){
+					dayNew = true;
+				}
+				member.setIndate(yea);
+				alist.add(member);
 			}
 		}catch(Exception e){e.printStackTrace();
 		}finally{
@@ -336,5 +387,50 @@ public class DAO {
 		}finally {
 			DBClose.close(con,pstmt);
 		}
+	}
+
+	public int max_Mem(){
+		Connection con = dbconnect.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int max = 0;
+
+		try{
+			sql = "select max(num) from member";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()){
+				max = rs.getInt(1);
+			}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			DBClose.close(con,pstmt,rs);
+		}
+		return max;
+	}
+
+	public boolean loginCheck(String id, String pwd){
+		Connection con = dbconnect.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean ch = false;
+		try{
+			sql = "SELECT id FROM member where ID=? and PWD=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				ch = true;
+			} else {
+				ch = false;
+			}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			DBClose.close(con,pstmt,rs);
+		}
+		return ch;
 	}
 }

@@ -3,40 +3,40 @@
 <%@ page import="board.*,java.util.*" %>
 <jsp:useBean id="dao" class="board.DAO"/>
 
-<%	
+<%
 	int total = dao.count();
 	ArrayList<VO> alist = dao.getMemberList();
 	int size = alist.size();
 	int size2 = size;
-	
+
 	final int ROWSIZE = 4;
 	final int BLOCK = 5;
 	int indent = 0;
 
 	int pg = 1;
-	
+
 	if(request.getParameter("pg")!=null) {
 		pg = Integer.parseInt(request.getParameter("pg"));
 	}
-	
+
 	int end = (pg*ROWSIZE);
-	
+
 	int allPage = 0;
 
 	int startPage = ((pg-1)/BLOCK*BLOCK)+1;
 	int endPage = ((pg-1)/BLOCK*BLOCK)+BLOCK;
-	
+
 	allPage = (int)Math.ceil(total/(double)ROWSIZE);
-	
+
 	if(endPage > allPage) {
 		endPage = allPage;
 	}
-	
+
 	size2 -=end;
 	if(size2 < 0) {
 		end = size;
 	}
-	
+
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -45,6 +45,7 @@
  <title>게시판</title>
  </head>
  <body>
+ <h3>총 개시글:<%=total %>, 접속자 :${sessionScope.name}</h3>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr height="5"><td width="5"></td></tr>
  <tr style="background:url('img/table_mid.gif') repeat-x; text-align:center;">
@@ -72,8 +73,8 @@
 	<tr height="25" align="center">
 	<td align="center">&nbsp;</td>
 	<td align="center"><%=idx%></td>
-	<td align="left"><% 
-		
+	<td align="left"><%
+
 		for(int j=0;j<indent;j++){
 		%> &nbsp;&nbsp;&nbsp;<%
 		}
@@ -108,7 +109,7 @@
 		<%
 			}
 		%>
-		
+
 		<%
 			for(int i=startPage; i<= endPage; i++){
 				if(i==pg){
@@ -122,7 +123,7 @@
 				}
 			}
 		%>
-		
+
 		<%
 			if(endPage<allPage){
 		%>
