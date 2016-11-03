@@ -72,7 +72,6 @@
 			<tr align="center">
 				<td width="0">&nbsp;</td>
 				<td colspan="2" width="399">
-					<input type="button" value="답글" OnClick="window.location='reply.jsp?idx=<%=idx%>&pg=<%=pg %>'">
 					<input type="button" value="목록" onclick="window.location='list.jsp?pg=<%=pg%>'">
 					<input type="button" value="수정" onclick="window.location='modify.jsp?idx=<%=idx%>&pg=<%=pg %>'">
 					<input type="button" value="삭제" onclick="window.location='delete.jsp?idx=<%=idx%>&pg=<%=pg %>'">
