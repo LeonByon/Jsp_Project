@@ -14,7 +14,7 @@
 	%>
 		<script>
 			self.window.alert("어서오세요.");
-			location.href="../list.jsp?name=<%=id%>";
+			location.href="../list.jsp";
 		</script>
 	<%
 		session.setAttribute("name", id);

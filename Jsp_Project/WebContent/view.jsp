@@ -115,6 +115,13 @@
 	<table width="413" cellpadding="0" cellspacing="0" border="0">
 		<tr style="background: url('img/table_mid.gif') repeat-x; text-align:center;">
 			<td width="5"><img src="img/table_left.gif" width="5" height="30" /></td>
+<%
+			if(((String)session.getAttribute("name")).equals("admin") || ((String)session.getAttribute("name")).equals(vo_com.getMem_name())){
+%>
+			<td><button class=""></button></td>
+<%
+			}
+%>
 			<td width="5"><img src="img/table_right.gif" width="5" height="30" /></td>
 		</tr>
 	</table>
@@ -122,6 +129,8 @@
 	<form action="./reply_ok.jsp" method = "post">
 		<p>
 			<textarea name = "mem_name" rows="1" cols="25" readonly>${sessionScope.name}</textarea>
+		</p>
+		<p>
 			<textarea name = "memo" rows="2" cols="50"></textarea>
 		</p>
 		<input type = "hidden" name="pg" value = "<%=pg%>">

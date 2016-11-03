@@ -101,7 +101,7 @@ public class DAO {
 				vo_com.setNum(rs.getInt(1));
 				vo_com.setBoard_num(rs.getInt(2));
 				vo_com.setMem_name(rs.getString(3));
-				vo_com.setMemo(rs.getString(4));
+				vo_com.setMemo(pasing(rs.getString(4)));
 
 				Date date = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -324,6 +324,10 @@ public class DAO {
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
 
+			sql = "delete from comments where board_num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			pstmt.executeUpdate();
 		}catch(Exception e) {
 
 		}finally {

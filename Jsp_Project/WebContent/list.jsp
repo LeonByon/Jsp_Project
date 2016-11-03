@@ -4,6 +4,15 @@
 <jsp:useBean id="dao" class="board.DAO"/>
 
 <%
+
+	if(session.getAttribute("name")==null){
+		%>
+		<script>
+			self.window.alert("잘못된 접근입니다.");
+			location.href="./Login/LoginFrom.jsp";
+		</script>
+	<%
+	}
 	int total = dao.count();
 	ArrayList<VO> alist = dao.getMemberList();
 	int size = alist.size();
@@ -46,6 +55,7 @@
  </head>
  <body>
  <h3>총 개시글:<%=total %>, 접속자 :${sessionScope.name}</h3>
+ <p><b><a href="./Login/Logout.jsp">로그아웃</a></b></p>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr height="5"><td width="5"></td></tr>
  <tr style="background:url('img/table_mid.gif') repeat-x; text-align:center;">
