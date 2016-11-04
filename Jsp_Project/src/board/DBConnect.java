@@ -7,7 +7,7 @@ public class DBConnect {
 	public DBConnect(){}
 	
 	public Connection getConnection(){
-		String url = "jdbc:mysql://130.211.163.108:3306/member";
+		String url = "jdbc:mysql://130.211.163.108:3306/member?autoReconnect=true&useSSL=false";
 		String id ="root";
 		String pass = "bjskgs";
 		

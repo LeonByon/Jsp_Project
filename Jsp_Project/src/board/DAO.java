@@ -51,7 +51,7 @@ public class DAO {
 		ArrayList<VO> alist = new ArrayList<VO>();
 
 		try{
-			sql = "select num, username, title, time, hit, indent from board order by ref";
+			sql = "select num, username, title, time, hit from BOARD";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -91,7 +91,7 @@ public class DAO {
 		ArrayList<VO_COM> alist = new ArrayList<VO_COM>();
 
 		try{
-			sql = "select num,board_num,mem_name,memo,indate from comments where board_num="+idx+"ORDER BY comments.NUM";
+			sql = "select num,board_num,mem_name,memo,indate from COMMENTS where board_num="+idx+"ORDER BY COMMENTS.NUM";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -129,7 +129,7 @@ public class DAO {
 		ArrayList<Member> alist = new ArrayList<Member>();
 
 		try{
-			sql = "select num,id,pwd,name,email,phone,indate,admin from member";
+			sql = "select num,id,pwd,name,email,phone,indate,admin from MEMBER";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -178,7 +178,7 @@ public class DAO {
 		int max = 0;
 
 		try{
-			sql = "select max(num) from board";
+			sql = "select max(num) from BOARD";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -197,14 +197,13 @@ public class DAO {
 		PreparedStatement pstmt = null;
 
 		try{
-			sql="insert into board(NUM, username,password,title,memo,ref) values(AAA.NEXTVAL,?,?,?,?,?)";
+			sql="insert into BOARD(username,password,title,memo) values(?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 
 			pstmt.setString(1, pasing(vo.getName()));
 			pstmt.setString(2, pasing(vo.getPassword()));
 			pstmt.setString(3, pasing(vo.getTitle()));
 			pstmt.setString(4, pasing(vo.getMemo()));
-			pstmt.setInt(5, max+1);
 			pstmt.execute();
 		}catch(Exception e){e.printStackTrace();
 		}finally{
@@ -219,7 +218,7 @@ public class DAO {
 		VO vo = null;
 
 		try{
-			sql="select username,title,memo,time,hit,password,ref,indent,step from board WHERE NUM=?";
+			sql="select username,title,memo,time,hit,password from BOARD WHERE NUM=?";
 			pstmt= con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
@@ -232,9 +231,6 @@ public class DAO {
 				vo.setTime(rs.getString(4));
 				vo.setHit(rs.getInt(5)+1);
 				vo.setPassword(rs.getString(6));
-				vo.setRef(rs.getInt(7));
-				vo.setIndent(rs.getInt(8));
-				vo.setStep(rs.getInt(9));
 			}
 		}catch(Exception e){e.printStackTrace();
 		}finally{
@@ -250,7 +246,7 @@ public class DAO {
 		VO_COM vo_com = null;
 
 		try{
-			sql="select num,board_num,mem_name,memo,indate from comments WHERE board_num=?";
+			sql="select num,board_num,mem_name,memo,indate from COMMENTS WHERE board_num=?";
 			pstmt= con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			rs = pstmt.executeQuery();
@@ -275,7 +271,7 @@ public class DAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			sql = "UPDATE board SET HIT=HIT+1 where NUM=?";
+			sql = "UPDATE BOARD SET HIT=HIT+1 where NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
@@ -294,7 +290,7 @@ public class DAO {
 		boolean ch = false;
 
 		try {
-			sql = "SELECT NUM FROM board where NUM=? and PASSWORD=?";
+			sql = "SELECT NUM FROM BOARD where NUM=? and PASSWORD=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.setString(2, vo.getPassword());
@@ -319,12 +315,12 @@ public class DAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			sql = "DELETE FROM board WHERE NUM=?";
+			sql = "DELETE FROM BOARD WHERE NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
 
-			sql = "delete from comments where board_num=?";
+			sql = "delete from COMMENTS where board_num=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, idx);
 			pstmt.executeUpdate();
@@ -340,29 +336,11 @@ public class DAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			sql = "UPDATE board SET TITLE=?, MEMO=? where NUM=?";
+			sql = "UPDATE BOARD SET TITLE=?, MEMO=? where NUM=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, pasing(vo.getTitle()));
 			pstmt.setString(2, pasing(vo.getMemo()));
 			pstmt.setInt(3, idx);
-			pstmt.executeUpdate();
-
-		}catch(Exception e) {
-
-		}finally {
-			DBClose.close(con,pstmt);
-		}
-	}
-
-	public void UpdateStep(int ref, int step) {
-		Connection con = dbconnect.getConnection();
-		PreparedStatement pstmt = null;
-
-		try {
-			sql = "UPDATE board SET STEP=STEP+1 where REF=? and STEP>?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, ref);
-			pstmt.setInt(2, step);
 			pstmt.executeUpdate();
 
 		}catch(Exception e) {
@@ -377,8 +355,8 @@ public class DAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			sql = "INSERT INTO comments(NUM, board_num, mem_name, memo, indate) "+
-					"VALUES(BBB.NEXTVAL,?,?,?,sysdate)";
+			sql = "INSERT INTO COMMENTS(board_num, mem_name, memo, indate) "+
+					"VALUES(?,?,?,sysdate)";
 			pstmt = con.prepareStatement(sql);
 
 			pstmt.setInt(1, idx);
@@ -400,7 +378,7 @@ public class DAO {
 		int max = 0;
 
 		try{
-			sql = "select max(num) from member";
+			sql = "select max(num) from MEMBER";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
