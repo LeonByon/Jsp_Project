@@ -62,7 +62,7 @@ function writeCheck()
 	ResultSet rs = null; //실행결과
 	ResultSet rs2 = null;
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String uid = "jspproject";
+	String uid = "jsp_lesson";
 	String pass = "1234";
 	String sql = "SELECT * FROM MEMBER";
 	String sql2 = "select max(num) AS maxNum from MEMBER";
