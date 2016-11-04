@@ -22,7 +22,7 @@
 	ResultSet rs = null; //실행결과
 	int maxNum = 0;
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String uid = "jsp_lesson";
+	String uid = "jspproject";
 	String pass = "1234";
 	String sql = "INSERT INTO MEMBER (num,id,pwd,name,phone,email,admin,indate) VALUES (?,?,?,?,?,?,?,current_date)";
 	String id_sql = "select id from member where id =?";
