@@ -14,17 +14,24 @@
 	%>
 		<script>
 			self.window.alert("어서오세요.");
-			location.href="../list.jsp?name=<%=id%>";
+			location.href="../list.jsp";
 		</script>
 	<%
 		session.setAttribute("name", id);
-} else {
+} else if(id.equals("") || pwd.equals("")){
 	%>
 		<script>
-			self.window.alert("아이디 혹은 비밀번호를 틀렸습니다.");
+			self.window.alert("아이디 혹은 비밀번호를 입력해 주세요.");
 			location.href="javascript:history.back()";
 		</script>
 	<%
+} else {
+	%>
+	<script>
+		self.window.alert("아이디 혹은 비밀번호를 틀렸습니다.");
+		location.href="javascript:history.back()";
+	</script>
+<%
 }
 
 %>

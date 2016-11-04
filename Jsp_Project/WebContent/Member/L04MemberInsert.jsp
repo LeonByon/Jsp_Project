@@ -66,7 +66,7 @@
 		pstmt.setString(7, String.valueOf(mem.getAdmin()));
 		int del =pstmt.executeUpdate();
 		if(del>0){
-			response.sendRedirect("./L01MemberList.jsp");
+			response.sendRedirect("../Login/LoginFrom.jsp");
 		}else{
 			%>
 			<script>

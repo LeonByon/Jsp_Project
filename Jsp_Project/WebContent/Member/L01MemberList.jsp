@@ -24,7 +24,6 @@
 		</tr>
 	<%
 	ArrayList<Member> alist = dao.getMember();
-	int maxNum = dao.max_Mem() + 1;
 	for(int i=0;i<alist.size();i++){
 		Member member = alist.get(i);
 	%>
@@ -43,7 +42,6 @@
 		</tr>
 		<%} %>
 	</table>
-	<p><b><a href="./L03MemberAddForm.jsp?maxNum=<%=maxNum%>">회원가입</a></b></p>
 
 </body>
 </html>
