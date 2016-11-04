@@ -72,7 +72,6 @@ public class DAO {
 				}
 				vo.setTime(yea);
 				vo.setHit(rs.getInt(5));
-				vo.setIndent(rs.getInt(6));
 				vo.setDayNew(dayNew);
 				alist.add(vo);
 			}
@@ -91,7 +90,7 @@ public class DAO {
 		ArrayList<VO_COM> alist = new ArrayList<VO_COM>();
 
 		try{
-			sql = "select num,board_num,mem_name,memo,indate from COMMENTS where board_num="+idx+"ORDER BY COMMENTS.NUM";
+			sql = "select num,board_num,mem_name,memo,indate from COMMENTS where board_num="+idx;
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -356,7 +355,7 @@ public class DAO {
 
 		try {
 			sql = "INSERT INTO COMMENTS(board_num, mem_name, memo, indate) "+
-					"VALUES(?,?,?,sysdate)";
+					"VALUES(?,?,?,CURRENT_DATE)";
 			pstmt = con.prepareStatement(sql);
 
 			pstmt.setInt(1, idx);
