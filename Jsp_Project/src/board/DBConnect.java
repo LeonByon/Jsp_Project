@@ -7,14 +7,14 @@ public class DBConnect {
 	public DBConnect(){}
 	
 	public Connection getConnection(){
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String id ="jspproject";
-		String pass = "1234";
+		String url = "jdbc:mysql://130.211.163.108:3306/member";
+		String id ="root";
+		String pass = "bjskgs";
 		
 		Connection con = null;
 		
 		try{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url,id,pass);
 		}catch(Exception e){
 			e.printStackTrace();

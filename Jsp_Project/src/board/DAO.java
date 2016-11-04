@@ -416,7 +416,7 @@ public class DAO {
 		ResultSet rs = null;
 		boolean ch = false;
 		try{
-			sql = "SELECT id FROM member where ID=? and PWD=?";
+			sql = "SELECT ID FROM MEMBER where ID=? and PWD=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
